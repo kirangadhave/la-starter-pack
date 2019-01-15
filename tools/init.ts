@@ -3,6 +3,7 @@ import { mv, rm, which, exec } from "shelljs";
 import * as colors from "colors";
 import * as path from "path";
 import * as replace from "replace-in-file";
+import { readFileSync, writeFileSync } from "fs";
 
 const rmDirs = [".git"];
 
@@ -150,4 +151,22 @@ function modifyContents(
 
 function renameItems(libName: string) {}
 
-function finalize() {}
+function finalize() {
+  console.log(colors.underline.white("Finalizing"));
+
+  // let gitInitOutput = exec('git init "' + path.resolve(__dirname, "..") + '"', {
+  //   silent: true
+  // }).stdout;
+  // console.log(colors.green(gitInitOutput.replace(/(\n|\r)+/g, "")));
+
+  let jsonPackage = path.resolve(__dirname, "..", "package.json");
+  const pkg = JSON.parse(readFileSync(jsonPackage) as any);
+
+  // Note: Add items to remove from the package file here
+  delete pkg.scripts.postinstall;
+
+  // writeFileSync(jsonPackage, JSON.stringify(pkg, null, 2));
+  console.log(colors.green("Postinstall script has been removed"));
+
+  console.log("\n");
+}
