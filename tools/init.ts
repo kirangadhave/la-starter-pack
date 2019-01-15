@@ -9,7 +9,7 @@ const rmDirs = [".git"];
 
 const rmFiles = [".gitattributes", "tools/init.ts"];
 
-const modifyFiles = ["LICENSE", "package.json", "webpack.config.ts"];
+const modifyFiles = ["LICENSE", "package.json", "webpack.config.js"];
 
 prompt.start();
 prompt.message = "";
