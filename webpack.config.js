@@ -12,7 +12,7 @@ const PATHS = {
   bundles: path.resolve(__dirname, "_bundles")
 };
 
-const libraryName = "--libraryname";
+const libraryName = "--libraryname--";
 
 const config = {
   entry: {
