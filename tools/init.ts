@@ -123,7 +123,7 @@ function cleanUp() {
   console.log(colors.underline.white("Removing unneeded directories"));
 
   let rmItems = rmDirs.concat(rmFiles);
-  // rm("-rf", rmItems.map(f => path.resolve(__dirname, "..", f)));
+  rm("-rf", rmItems.map(f => path.resolve(__dirname, "..", f)));
   console.log(colors.red(rmItems.join("\n")));
   console.log("\n");
 }
@@ -136,11 +136,11 @@ function modifyContents(
   console.log(colors.underline.white("Modified"));
   let files = modifyFiles.map(f => path.resolve(__dirname, "..", f));
   try {
-    // const changes = replace.sync({
-    //   files,
-    //   from: [/--libraryname--/g, /--username--/g, /--usermail--/g],
-    //   to: [libraryName, username, usermail]
-    // });
+    const changes = replace.sync({
+      files,
+      from: [/--libraryname--/g, /--username--/g, /--usermail--/g],
+      to: [libraryName, username, usermail]
+    });
     console.log(colors.yellow(modifyFiles.join("\n")));
   } catch (error) {
     console.error("An error occurred modifying the file: ", error);
@@ -154,10 +154,10 @@ function renameItems(libName: string) {}
 function finalize() {
   console.log(colors.underline.white("Finalizing"));
 
-  // let gitInitOutput = exec('git init "' + path.resolve(__dirname, "..") + '"', {
-  //   silent: true
-  // }).stdout;
-  // console.log(colors.green(gitInitOutput.replace(/(\n|\r)+/g, "")));
+  let gitInitOutput = exec('git init "' + path.resolve(__dirname, "..") + '"', {
+    silent: true
+  }).stdout;
+  console.log(colors.green(gitInitOutput.replace(/(\n|\r)+/g, "")));
 
   let jsonPackage = path.resolve(__dirname, "..", "package.json");
   const pkg = JSON.parse(readFileSync(jsonPackage) as any);
