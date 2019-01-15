@@ -2,22 +2,23 @@ import * as prompt from "prompt";
 import { mv, rm, which, exec } from "shelljs";
 import * as colors from "colors";
 import * as path from "path";
+import * as replace from "replace-in-file";
 
 const rmDirs = [".git"];
 
-const rmFiles = [".all-contributorsrc", ".gitattributes", "tools/init.ts"];
+const rmFiles = [".gitattributes", "tools/init.ts"];
 
-const modifyFiles = [
-  "LICENSE",
-  "package.json",
-  "rollup.config.ts",
-  "test/library.test.ts",
-  "tools/gh-pages-publish.ts"
-];
+const modifyFiles = ["LICENSE", "package.json", "webpack.config.ts"];
 
 prompt.start();
 prompt.message = "";
 process.stdout.write("\x1B[2J\x1B[0f");
+
+if (!which("git")) {
+  console.log(colors.red("Sorry, this script requires git"));
+  cleanUp();
+  process.exit(1);
+}
 
 const promptSchemaLibrarySuggest = {
   properties: {
@@ -117,9 +118,35 @@ function setup(libName: string) {
   console.log(colors.cyan("OK, you're all set. Happy coding!! ;)\n"));
 }
 
-function cleanUp() {}
+function cleanUp() {
+  console.log(colors.underline.white("Removing unneeded directories"));
 
-function modifyContents(libName: string, name: string, email: string) {}
+  let rmItems = rmDirs.concat(rmFiles);
+  // rm("-rf", rmItems.map(f => path.resolve(__dirname, "..", f)));
+  console.log(colors.red(rmItems.join("\n")));
+  console.log("\n");
+}
+
+function modifyContents(
+  libraryName: string,
+  username: string,
+  usermail: string
+) {
+  console.log(colors.underline.white("Modified"));
+  let files = modifyFiles.map(f => path.resolve(__dirname, "..", f));
+  try {
+    // const changes = replace.sync({
+    //   files,
+    //   from: [/--libraryname--/g, /--username--/g, /--usermail--/g],
+    //   to: [libraryName, username, usermail]
+    // });
+    console.log(colors.yellow(modifyFiles.join("\n")));
+  } catch (error) {
+    console.error("An error occurred modifying the file: ", error);
+  }
+
+  console.log("\n");
+}
 
 function renameItems(libName: string) {}
 

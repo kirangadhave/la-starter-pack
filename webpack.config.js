@@ -12,6 +12,8 @@ const PATHS = {
   bundles: path.resolve(__dirname, "_bundles")
 };
 
+const libraryName = "--libraryname";
+
 const config = {
   entry: {
     app: [PATHS.entryPoint],
@@ -20,7 +22,7 @@ const config = {
   output: {
     path: PATHS.bundles,
     filename: "[name].[chunkhash].js",
-    library: "Lib",
+    library: libraryName,
     libraryTarget: "umd",
     umdNamedDefine: true
   },

@@ -1,9 +1,12 @@
 {
-  "name": "la_starter_kit",
-  "version": "1.0.0",
+  "name": "--libraryname",
+  "version": "0.0.0",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean": "shx rm -rf _bundles lib lib-esm",
     "tsc": "tsc",
@@ -26,7 +29,7 @@
     "type": "git",
     "url": "git+https://github.com/kirangadhave/la_starter_pack.git"
   },
-  "author": "",
+  "author": "--username-- <--usermail-->",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kirangadhave/la_starter_pack/issues"
@@ -47,7 +50,9 @@
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
     "prompt": "^1.0.0",
+    "replace-in-file": "^3.4.3",
     "sass-loader": "^7.1.0",
+    "shelljs": "^0.8.3",
     "shx": "^0.3.2",
     "style-loader": "^0.23.1",
     "ts-node": "^7.0.1",
