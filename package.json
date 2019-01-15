@@ -27,14 +27,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kirangadhave/la_starter_pack.git"
+    "url": ""
   },
   "author": "--username-- <--usermail-->",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kirangadhave/la_starter_pack/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/kirangadhave/la_starter_pack#readme",
+  "homepage": "",
   "devDependencies": {
     "@types/node": "^10.12.18",
     "awesome-typescript-loader": "^5.2.1",
