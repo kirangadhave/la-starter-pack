@@ -5,11 +5,12 @@ const webpack = require("webpack");
 const WebpackMd5Hash = require("webpack-md5-hash");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 
 const PATHS = {
   entryPoint: path.resolve(__dirname, "src/index.ts"),
   cssEntryPoint: path.resolve(__dirname, "src/styles.scss"),
-  bundles: path.resolve(__dirname, "_bundles")
+  bundles: path.resolve(__dirname, "_bundles"),
 };
 
 const libraryName = "--libraryname--";
@@ -17,75 +18,87 @@ const libraryName = "--libraryname--";
 const config = {
   entry: {
     app: [PATHS.entryPoint],
-    style: [PATHS.cssEntryPoint]
+    style: [PATHS.cssEntryPoint],
+  },
+  devServer: {
+    publicPath: "/_bundles/",
+    watchContentBase: true,
   },
   output: {
     path: PATHS.bundles,
     filename: "[name].[chunkhash].js",
     library: libraryName,
     libraryTarget: "umd",
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".css", ".html"]
+    extensions: [".ts", ".tsx", ".js", ".css", ".html"],
   },
   devtool: "source-map",
   plugins: [
     new WebpackMd5Hash(),
     new HtmlWebpackPlugin({
       template: "./src/_index.html",
-      filename: "../index.html"
+      filename: "../index.html",
+      alwaysWriteToDisk: true,
     }),
+    new HtmlWebpackHarddiskPlugin(),
     new webpack.ProvidePlugin({
       d3: "d3",
       $: "jquery",
-      "window.$": "jquery"
+      "window.$": "jquery",
     }),
     new MiniCssExtractPlugin({
-      filename: "style.[contenthash].css"
+      filename: "style.[contenthash].css",
     }),
   ],
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.tsx?$/,
         loader: "awesome-typescript-loader",
         exclude: /node_modules/,
         query: {
-          declaration: false
-        }
+          declaration: false,
+        },
       },
       {
         test: /\.(scss)$/,
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader",
+        use: [
+          "style-loader",
+          MiniCssExtractPlugin.loader,
+          "css-loader",
           {
             loader: "postcss-loader",
             options: {
-              plugins: function () {
+              plugins: function() {
                 return [require("precss"), require("autoprefixer")];
-              }
-            }
+              },
+            },
           },
-          "sass-loader"
-        ]
+          "sass-loader",
+        ],
       },
       {
         test: /\.less$/,
-        use: [{
-            loader: "style-loader"
-          }, {
-            loader: "css-loader"
+        use: [
+          {
+            loader: "style-loader",
           },
           {
-            loader: "less-loader"
-          }
-        ]
+            loader: "css-loader",
+          },
+          {
+            loader: "less-loader",
+          },
+        ],
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
-  }
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
 };
 
 module.exports = config;
