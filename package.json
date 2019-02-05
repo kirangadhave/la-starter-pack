@@ -21,7 +21,7 @@
     "dev-lib-esm": "npm run clean && npm install && npm-run-all --parallel tsc-esm-dev",
     "dev-web": "npm run clean && npm install && npm run webpack-dev",
     "dev": "npm run clean && npm install && npm-run-all --parallel tsc-dev tsc-esm-dev webpack-dev",
-    "postinstall": "tsnode tools/init"
+    "postinstall": "ts-node tools/init"
   },
   "repository": {
     "type": "git",
